@@ -11,6 +11,30 @@ exports[`tests for Pagination should match snapshot 1`] = `
     &lt;
   </a>
   <a
+    class="text-amber-700"
+    href="/facts/1"
+  >
+    1
+  </a>
+  <div>
+    5
+  </div>
+  <div>
+    ...
+  </div>
+  <a
+    class="text-amber-700"
+    href="/facts/18"
+  >
+    18
+  </a>
+  <a
+    class="text-amber-700"
+    href="/facts/19"
+  >
+    19
+  </a>
+  <a
     class="border-solid p-1 px-5 rounded-2xl border-2 border-opacity-50 border-indigo-600"
     href="/facts/6"
   >

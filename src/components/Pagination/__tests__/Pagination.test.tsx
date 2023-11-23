@@ -20,7 +20,8 @@ describe('tests for Pagination', () => {
 
   it('should check href', () => {
     const { container } = render(<Pagination pageCount={20} />);
-    const [goPrevPage, goNextPage] = Array.from(container.querySelectorAll('a'));
+    const [goPrevPage, ...allLink] = Array.from(container.querySelectorAll('a'));
+    const goNextPage = allLink.pop();
 
     expect(goPrevPage).toBeInTheDocument();
     expect(goPrevPage).toHaveAttribute('href', '/facts/4');
@@ -28,10 +29,10 @@ describe('tests for Pagination', () => {
     expect(goNextPage).toHaveAttribute('href', '/facts/6');
   });
 
-  it('should render only left arrow', () => {
+  it('should render count links', () => {
     const { container } = render(<Pagination pageCount={5} />);
     const arrows = Array.from(container.querySelectorAll('a'));
 
-    expect(arrows.length).toEqual(1);
+    expect(arrows.length).toEqual(4);
   });
 });

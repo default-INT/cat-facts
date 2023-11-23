@@ -1,32 +1,46 @@
 import { api } from 'api';
-import { GetServerSideProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { Pagination } from 'components/Pagination';
 import { FactList } from 'components/FactList';
-import { queryClient } from 'utils/queryClient';
+import { TGetFacts } from 'api/types';
 
 interface IProps {
   pageCount: number;
+  initialDate: TGetFacts
 }
 
-const Facts = ({ pageCount }: IProps) => (
+const Facts = ({ pageCount, initialDate }: IProps) => (
   <>
-    <FactList />
+    <FactList initialData={initialDate} />
     <Pagination pageCount={pageCount} />
   </>
 );
 
-export const getServerSideProps = (async () => {
-  const { lastPage } = await queryClient.fetchQuery({
-    queryKey: ['getFacts'],
-    queryFn: () => api.facts(),
-    cacheTime: 10000,
-  });
+export const getStaticPaths = (async () => {
+  const { lastPage } = await api.facts();
+
+  return {
+    paths: Array.from({ length: lastPage }, (_, i) => ({
+      params: {
+        page: String(i + 1),
+      },
+    })),
+    fallback: false,
+  };
+}) satisfies GetStaticPaths;
+
+export const getStaticProps = (async ({ params }) => {
+  const page = Number(params?.page) || 1;
+  const initialDate = await api.facts({ page });
+  const { lastPage } = initialDate;
 
   return {
     props: {
       pageCount: lastPage,
+      initialDate,
     },
+    revalidate: 10000,
   };
-}) satisfies GetServerSideProps<IProps>;
+}) satisfies GetStaticProps<IProps>;
 
 export default Facts;

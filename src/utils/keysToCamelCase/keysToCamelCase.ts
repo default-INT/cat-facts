@@ -5,8 +5,8 @@ type TFormatterFn = (key: string) => string;
 const toCamelCase = (key: string) => key
   .replace(/([-_][a-z0-9])/gi, c => c.toUpperCase().replace(/[-_]/g, ''));
 
-// eslint-disable-next-line max-len
-export const keysToCamelCase = <T extends object>(obj: any, formatter: TFormatterFn = toCamelCase): T => {
+export const keysToCamelCase = <T extends object>(obj: any,
+  formatter: TFormatterFn = toCamelCase): T => {
   const mapArray = <V>(item: V) => keysToCamelCase(item);
 
   if (Array.isArray(obj)) return obj.map(mapArray) as T;
