@@ -1,0 +1,1 @@
+export { makeLink } from './makeLink';
