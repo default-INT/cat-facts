@@ -5,7 +5,7 @@ interface IGetFactsRequest {
   page?: number
 }
 
-export const facts = async (params: IGetFactsRequest) => {
+export const facts = async (params?: IGetFactsRequest) => {
   const response = await request.get<TGetFacts>({
     url: 'https://catfact.ninja/facts',
     params,
